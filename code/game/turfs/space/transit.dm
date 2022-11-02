@@ -139,10 +139,7 @@
 
 	var/list/levels_available = get_all_linked_levels_zpos()
 	var/turf/T = locate(_x, _y, pick(levels_available))
-	if(T.destination_z == 4 && )
-		
-	else
-		AM.forceMove(T)
+	AM.forceMove(T)
 	AM.newtonian_move(dir)
 
 

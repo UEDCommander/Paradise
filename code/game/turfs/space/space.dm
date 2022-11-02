@@ -113,6 +113,23 @@
 		return
 
 	if(destination_z && destination_x && destination_y)
+		if(is_taipan(destination_z) && GLOB.taipan_active == FALSE) //Делаем перерасчет и кидаем объект в следующий сектор, потому что Тайпан закрыт
+			var/datum/space_level/taipan_zlvl
+			var/datum/space_level/direct
+			for(var/list_parser in GLOB.space_manager.z_list)
+				var/datum/space_level/lvl = GLOB.space_manager.z_list[list_parser]
+				if(TAIPAN in lvl.flags)
+					taipan_zlvl = lvl
+			switch(A.dir)
+				if(NORTH)
+					direct = taipan_zlvl.get_connection(Z_LEVEL_NORTH)
+				if(SOUTH)
+					direct = taipan_zlvl.get_connection(Z_LEVEL_SOUTH)
+				if(EAST)
+					direct = taipan_zlvl.get_connection(Z_LEVEL_EAST)
+				if(WEST)
+					direct = taipan_zlvl.get_connection(Z_LEVEL_WEST)
+			destination_z = direct.zpos
 		A.forceMove(locate(destination_x, destination_y, destination_z))
 
 		if(isliving(A))
