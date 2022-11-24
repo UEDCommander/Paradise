@@ -31,4 +31,4 @@
 	name = "drask eyeballs"
 	icon = 'icons/obj/species_organs/drask.dmi'
 	desc = "Drask eyes. They look even stranger disembodied"
-	see_in_dark = 5
+	see_in_dark = 6
