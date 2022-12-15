@@ -152,6 +152,29 @@
 	general_records = R
 	has_back = TRUE
 
+/datum/data/pda/app/crew_records/general
+	name = "Employment Records"
+	template = "pda_general"
+	category = "Employment"
+	
+/datum/data/pda/app/crew_records/general/update_ui(mob/user as mob, list/data)
+	var/list/records = ..()
+	if(!records)
+		return
+
+	if(general_records && (general_records in GLOB.data_core.general))
+		records["general"] = general_records.fields
+
+	return records
+
+/datum/data/pda/app/crew_records/general/load_records(datum/data/record/R)
+	..(R)
+	for(var/A in GLOB.data_core.general)
+		var/datum/data/record/E = A
+		if(E && (E.fields["name"] == R.fields["name"] || E.fields["id"] == R.fields["id"]))
+			general_records = E
+			break
+
 /datum/data/pda/app/crew_records/medical
 	name = "Medical Records"
 	icon = "heartbeat"

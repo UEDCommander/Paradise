@@ -254,7 +254,9 @@
 		new/datum/data/pda/utility/scanmode/halogen,
 
 		new/datum/data/pda/utility/scanmode/gas,
-
+		
+		new/datum/data/pda/app/crew_records/general,
+		
 		new/datum/data/pda/app/crew_records/medical,
 		new/datum/data/pda/utility/scanmode/medical,
 

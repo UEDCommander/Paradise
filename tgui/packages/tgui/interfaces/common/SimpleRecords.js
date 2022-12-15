@@ -80,6 +80,23 @@ const RecordView = (props, context) => {
 
   let secondaryRecord;
   switch (props.recordType) {
+	case "GEN":
+      secondaryRecord = (
+        <Section level={2} title="Employment Data">
+          {general ? (
+            <LabeledList>
+              <LabeledList.Item label="Important Notes">
+                {general.notes}
+              </LabeledList.Item>
+            </LabeledList>
+          ) : (
+            <Box color="red" bold>
+              {"Employment record lost!"}
+            </Box>
+          )}
+        </Section>
+      );
+      break;
     case "MED":
       secondaryRecord = (
         <Section level={2} title="Medical Data">
