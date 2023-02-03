@@ -81,6 +81,9 @@
 	else
 		if(!species_prompt())
 			return
+	for(var/i in 1 to 10)
+		if(O.change_voice())
+			break
 	if(!loc || !uses || QDELETED(src) || QDELETED(user))
 		to_chat(user, "<span class='warning'>The [name] is no longer usable!</span>")
 		return
@@ -88,7 +91,7 @@
 		add_game_logs("[user.ckey] became [mob_name]", user)
 	else
 		add_game_logs("[user.ckey] became [mob_name]. Job: [id_job]", user)
-	create(plr = user, prefs = mob_use_prefs)
+	create(plr = user, prefs = mob_use_prefs, tts_seed = O.tts_seed)
 
 /obj/effect/mob_spawn/Initialize(mapload)
 	. = ..()
@@ -118,7 +121,7 @@
 /obj/effect/mob_spawn/proc/equip(mob/M, use_prefs = FALSE)
 	return
 
-/obj/effect/mob_spawn/proc/create(mob/plr, flavour = TRUE, name, prefs = FALSE)
+/obj/effect/mob_spawn/proc/create(mob/plr, flavour = TRUE, name, prefs = FALSE, tts_seed)
 	var/mob/living/M = new mob_type(get_turf(src)) //living mobs only
 	if(!random)
 		M.real_name = mob_name ? mob_name : M.name
@@ -140,6 +143,12 @@
 	M.adjustBruteLoss(brute_damage)
 	M.adjustFireLoss(burn_damage)
 	M.color = mob_color
+	
+	if(!tts_seed)
+		M.tts_seed = pick(SStts.tts_seeds)
+	else
+		M.tts_seed = tts_seed
+	
 	if(plr)
 		if(prefs)
 			plr.client?.prefs.copy_to(M)
@@ -162,12 +171,6 @@
 		uses--
 	if(!permanent && !uses)
 		qdel(src)
-	if(plr)
-		for(var/i in 1 to 10)
-			if(M.change_voice())
-				break
-	else
-		M.tts_seed = pick(SStts.tts_seeds)
 
 // Base version - place these on maps/templates.
 /obj/effect/mob_spawn/human
